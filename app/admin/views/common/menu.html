@@ -1,0 +1,31 @@
+<aside>
+    <div id="sidebar" class="nav-collapse " tabindex="5000" style="overflow: hidden; outline: none;">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" style="display: block;">
+            <li class="">
+                <a class="" href="/flatlab/index">
+                    <i class="icon-dashboard"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <?php foreach($this->session->userdata('title') as $value){?>
+                <?php if(isset($value['subtitle'])){?>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <i class="<?php echo $value['icon'];?>"></i>
+                            <span><?php echo $value['name'];?></span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul class="sub">
+                            <?php foreach($value['subtitle'] as $val){?>
+                            <li><a class="" href="<?php echo $val['link'];?>"><?php echo $val['name'];?></a></li>
+                            <?php }?>
+                        </ul>
+                    </li>
+                <?php }?>
+            <?php }?>
+        </ul>
+        <div style="position:fixed;bottom:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当前在线人数 1 人</div>
+        <!-- sidebar menu end-->
+    </div>
+</aside>

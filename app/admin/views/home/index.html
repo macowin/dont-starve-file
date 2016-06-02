@@ -1,0 +1,90 @@
+<?php $this->load->view('common/head.html');?>
+<?php $this->load->view('common/menu.html');?>
+
+
+<section id="main-content">
+    <section class="wrapper">
+        <!-- page start-->
+        <div class="row">
+            <div class="col-lg-12">
+                <section class="panel">
+                    <header class="panel-heading">
+                        首页模块显示
+                    </header>
+                    <div id="sample_1_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                        <!--<div class="row">
+                            <div class="col-sm-6">
+                                <div id="sample_1_length" class="dataTables_length">
+                                    <label>
+                                        <select size="1" name="sample_1_length" aria-controls="sample_1"
+                                                class="form-control">
+                                            <option value="10" selected="selected">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                        records per page
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="dataTables_filter" id="sample_1_filter">
+                                    <label>Search: <input type="text" aria-controls="sample_1"
+                                                          class="form-control"></label>
+                                </div>
+                            </div>
+                        </div>-->
+                        <table class="table table-striped border-top dataTable">
+                            <thead>
+                            <tr role="row">
+                                <?php foreach($data_key as $key=>$value){ ?>
+                                <th class="sorting" width="<?php echo $value;?>"><?php echo $key;?></th>
+                                <?php }?>
+                            </tr>
+                            </thead>
+
+                            <tbody role="alert" aria-live="polite" aria-relevant="all">
+                            <?php for($key = 1;$key <= 20;$key++){?>
+                            <tr class="gradeX odd">
+                                <td class=" ">Jhone doe</td>
+                                <td class="hidden-phone "><a>jhone-doe@gmail.com</a></td>
+                                <td class="hidden-phone ">10</td>
+                                <td class="center hidden-phone ">02.03.2013</td>
+                                <td class="hidden-phone "><span class="label label-success">Approved</span></td>
+                                <td>
+                                    <button class="btn btn-success btn-xs"><i class="icon-ok"></i></button>
+                                    <button class="btn btn-primary btn-xs"><i class="icon-pencil"></i></button>
+                                    <button class="btn btn-danger btn-xs"><i class="icon-trash "></i></button>
+                                </td>
+                            </tr>
+                            <?php }?>
+                            </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="dataTables_info" id="sample_1_info"><?php echo "当前 第 $now_page 页，显示 10 条信息，共 $maxpage 页";?></div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="dataTables_paginate paging_bootstrap pagination">
+                                    <ul>
+                                        <li class="prev <?php echo $now_page-1==0?'disabled':'';?>"><a href="<?php echo $now_page-1==0?'javascript:':$page_return_url.'1';?>">第一页</a></li>
+                                        <?php $max_page = $now_page+2>$maxpage?$maxpage:$now_page+2;?>
+                                        <?php $low_page = $now_page-3>0?$now_page-3:0;?>
+                                        <?php for($page = 1;$page<=$max_page;$page++){?>
+                                        <?php if($page>$low_page){?>
+                                        <li class="<?php if($page == $now_page) echo 'active';?>"><a href="<?php if($page == $now_page) echo 'javascript:'; else echo $page_return_url.$page;?>"><?php echo $page;?></a></li>
+                                        <?php }}?>
+                                        <li class="next <?php echo $now_page==$maxpage?'disabled':'';?>"><a href="<?php echo $now_page==$maxpage?'javascript:':$page_return_url.$maxpage;?>">最后一页</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <!-- page end-->
+    </section>
+</section>
+
+<?php $this->load->view('common/foot.html');?>
