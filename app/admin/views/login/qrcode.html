@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <link rel="dns-prefetch" href="//res.wx.qq.com">
+    <title>微信登录示范</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" type="text/css" href="https://res.wx.qq.com/mpkf/zh_CN/style/index2dd78f.css">
+    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+    <style>
+        .color_red{
+            color: red;
+        }
+        .color_green{
+            color: green;
+        }
+    </style>
+    <script>
+        $(function(){
+            var scene_id = new Date().getTime();
+            var close_type = 0;
+
+            ws = new WebSocket("ws://182.254.132.50:1235");
+            ws.onopen = function () {
+                var msg = '{"type":"getQrcode","scene_id":'+scene_id+'}';
+                ws.send(msg);
+                console.log('握手成功：发送请求,'+msg);
+            };
+            ws.onmessage = function (e) {
+                console.log('收到服务器请求：'+ e.data);
+                var data = JSON.parse(e.data);
+                switch (data.type){
+                    case 'qrcode':
+                        $("#qrcode").attr("src", data.qrcode);
+                        cycle();
+                        break;
+                    case 'user_info':
+                        console.log("已获取到用户的信息");
+                        $("#user_info").val(e.data);
+                        $("#send_form").submit();
+                        close_type = 1;
+                        break;
+                    case 'scan_start':
+                        $(".login_footer").addClass("color_green").text("用户已扫描，等待用户确认");
+                        break;
+                    case 'scan_end':
+                        //alert('扫描已过期');
+                        close_type = 1;
+                        $(".login_footer").addClass("color_red").removeClass('color_green').text("用户已扫描，等待确认超时");
+                        break;
+                }
+            };
+            function cycle(){
+                var time = 0;
+                 var cycle_time = setInterval(function(){
+                     time++;
+                     if(close_type == 1){
+                         clearInterval(cycle_time);
+                         ws.close();
+                         console.log("会话结束");
+                     }else if(time == 90){
+                         clearInterval(cycle_time);
+                         ws.close();
+                         console.log("二维码超时，会话结束");
+                         $(".login_footer").addClass("color_red").text("二维码已超时，请刷新页面");
+                     }else{
+                         var msg = '{"type":"getStatus","scene_id":'+scene_id+'}';
+                         ws.send(msg);
+                         console.log('获取扫描状态请求：'+msg);
+                     }
+                }, 1000)
+            }
+        })
+    </script>
+</head>
+<body>
+<input type="hidden" value="" id="scene_id"/>
+<form action="/login/submit/" method="post" id="send_form">
+    <input type="hidden" value="" id="user_info" name="user_info"/>
+</form>
+<div class="header"></div>
+<div class="body">
+    <div class="main">
+        <div class="login_content">
+            <div class="login_box scan">
+                <div class="login_header">
+                    <img src="https://res.wx.qq.com/mpkf/zh_CN/images/Tlogo2dd78f.png" alt="logo">
+                    <p class="img_name">网站登录示范</p>
+                </div>
+                <div class="login_body"><img id="qrcode" src="" width="300px" height="400px"></div>
+                <div class="login_footer" style="font-size: 17px">用微信扫描以上二维码登录</div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    © 2013-2016 Left4 Dead2  Inc. All Rights Reserved
+</div>
+</body>
+</html>

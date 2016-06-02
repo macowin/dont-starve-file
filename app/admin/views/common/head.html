@@ -240,8 +240,8 @@
             <!-- user login dropdown start-->
             <li class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                    <img alt="" src="../img/avatar1_small.jpg">
-                    <span class="username">周先生</span>
+                    <img alt="" src="<?php echo $this->user['head_img'];?>" width="29px">
+                    <span class="username"><?php echo $this->user['nickname'];?></span>
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu extended logout">

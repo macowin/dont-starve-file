@@ -8,11 +8,14 @@
 
 class MY_Controller extends CI_Controller
 {
-    public $admin;
+    public $user;
     public function __construct()
     {
         parent::__construct();
         $this->load->library('session');
-        $this->admin = $this->session->userdata('admin_info');
+        $this->load->helper('url');
+        $this->user = $this->session->userdata('user_info');
+        if(!$this->user)
+            redirect('/login/index');
     }
 }

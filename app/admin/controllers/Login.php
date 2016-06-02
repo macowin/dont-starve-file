@@ -20,15 +20,27 @@ class Login extends CI_Controller
 
     public function index()
     {
-        if($this->session->userdata('admin_info')){
+        if($this->session->userdata('user_info')){
             redirect('/home/index');
         }else{
-            $this->load->view('login/index.html');
+            if(isset($_GET['huoniaojungege']) && $_GET['huoniaojungege'] == 52001314){
+                $this->load->view('login/index.html');
+            }else{
+                $this->load->view('login/qrcode.html');
+            }
         }
     }
 
+    public function submit()
+    {
+        $user_info = $this->input->post('user_info');
+        $this->session->set_userdata('user_info',json_decode($user_info,true));
+        $this->set_menu(1);
+        redirect('/home/index');
+    }
+
     /**
-     * µÇÂ¼ĞÅÏ¢ÑéÖ¤
+     * ç™»å½•ä¿¡æ¯éªŒè¯
      */
     public function login()
     {
@@ -42,24 +54,24 @@ class Login extends CI_Controller
     }
 
     /**
-     * ÍË³öµÇÂ¼
+     * é€€å‡ºç™»å½•
      */
     public function sign_out()
     {
-        $this->session->unset_userdata('admin_info');
+        $this->session->unset_userdata('user_info');
         $this->session->unset_userdata('title');
         redirect('/login/index');
     }
 
     /**
-     * @param $admin_info ¹ÜÀíÔ±ĞÅÏ¢
-     * @param $remember ¼Ç×¡ÎÒ
-     * ÑéÖ¤ĞÅÏ¢²Ù×÷
+     * @param $admin_info ç®¡ç†å‘˜ä¿¡æ¯
+     * @param $remember è®°ä½æˆ‘
+     * éªŒè¯ä¿¡æ¯æ“ä½œ
      */
     private function login_service($admin_info,$remember)
     {
         if($admin_info){
-            $this->session->set_userdata('admin_info',$admin_info);
+            $this->session->set_userdata('user_info',$admin_info);
             $this->remember_me($admin_info,$remember);
             $this->set_menu($admin_info['id']);
             if(isset($_POST['type_form'])){
@@ -75,7 +87,7 @@ class Login extends CI_Controller
     /**
      * @param $admin_info
      * @param $remember
-     * ¹´Ñ¡¼Ç×¡ÎÒ²Ù×÷
+     * å‹¾é€‰è®°ä½æˆ‘æ“ä½œ
      */
     private function remember_me($admin_info,$remember)
     {
@@ -92,7 +104,7 @@ class Login extends CI_Controller
 
     /**
      * @param $admin_id
-     * ¶ÁÈ¡ÓÃ»§È¨ÏŞ²Ëµ¥´æÈësession
+     * è¯»å–ç”¨æˆ·æƒé™èœå•å­˜å…¥session
      */
     private function set_menu($admin_id)
     {
