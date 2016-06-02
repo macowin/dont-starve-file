@@ -108,7 +108,7 @@ class Weixin extends CI_Controller
         );
         $user_flag = $this->Any_model->info('login_user',array('open_id'=>$user['open_id']),'id');
         if($user_flag){
-            $this->Any_model->edit(array('login_user','id'=>$user_flag['id']),$user);
+            $this->Any_model->edit('login_user',array('id'=>$user_flag['id']),$user);
             return $user_flag['id'];
         }else{
             return $this->Any_model->add('login_user',$user);
