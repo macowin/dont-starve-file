@@ -3,14 +3,20 @@
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" style="display: block;">
             <li class="">
-                <a class="" href="/flatlab/index">
-                    <i class="icon-dashboard"></i>
-                    <span>主页</span>
+                <a class="" href="#">
+                    <i class="icon-apple"></i>
+                    <span>资 源 站</span>
                 </a>
             </li>
+            <?php $this->load->helper('url');
+            $uri1 = $this->uri->segment(1);
+            $uri2 = $this->uri->segment(2);
+            $uri = sprintf("/%s/%s",$uri1,$uri2);
+            ?>
+
             <?php foreach($this->session->userdata('title') as $value){?>
                 <?php if(isset($value['subtitle'])){?>
-                    <li class="sub-menu">
+                    <li class="sub-menu <?php foreach($value['subtitle'] as $val){if($val['link'] == $uri) echo 'active';}?>">
                         <a href="javascript:;" class="">
                             <i class="<?php echo $value['icon'];?>"></i>
                             <span><?php echo $value['name'];?></span>
@@ -18,7 +24,7 @@
                         </a>
                         <ul class="sub">
                             <?php foreach($value['subtitle'] as $val){?>
-                            <li><a class="" href="<?php echo $val['link'];?>"><?php echo $val['name'];?></a></li>
+                            <li class="<?php if($val['link'] == $uri) echo 'active';?>"><a class="" href="<?php echo $val['link'];?>"><?php echo $val['name'];?></a></li>
                             <?php }?>
                         </ul>
                     </li>
