@@ -46,7 +46,7 @@ class MyEvent
                $add_qrcode = array('scene_id'=>$message_data['scene_id'],'created_time'=>time());
                Db::instance('db')->insert('login_qrcode')->cols($add_qrcode)->query();
                $return_data['type'] = 'qrcode';
-               $return_data['qrcode'] = file_get_contents('http://l4d2.zhoujianjun.cn/weixin/getQrcode?scene_id='.$message_data['scene_id']);
+               $return_data['qrcode'] = file_get_contents('http://wx-dont-starve.zhoujianjun.cn/weixin/getQrcode?scene_id='.$message_data['scene_id']);
                var_dump($return_data);
                Gateway::sendToCurrentClient(json_encode($return_data));
                return;
