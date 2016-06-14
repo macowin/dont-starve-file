@@ -37,6 +37,30 @@
         factory(jQuery || Zepto);
     }	
 }(function($){
+    $("head").append("<link>");
+    var a =jQuery("head").children(":last");
+    a.attr({
+        rel: "stylesheet",
+        type: "text/css",
+        href: "/confirm/animate.min.css"
+    });
+
+    $("head").append("<link>");
+    var a2 =jQuery("head").children(":last");
+    a2.attr({
+        rel: "stylesheet",
+        type: "text/css",
+        href: "/confirm/jquery.gDialog.css"
+    });
+
+    $("head").append("<link>");
+    var a3 =jQuery("head").children(":last");
+    a3.attr({
+        rel: "stylesheet",
+        type: "text/css",
+        href: "/confirm/normalize.css"
+    });
+
     var m = {};
  	var g = {};
     m.OPENING = false;
@@ -58,13 +82,13 @@
     m.tplBase += "</div>";
 
     m.tplHeader = "<div class=\"gdialog-header\">{{title}}</div>";
-    m.tplInput = "<div class=\"gdialog-field\"><input type=\"text\"></div>";
+    m.tplInput = "<div class=\"gdialog-field\"><input type=\"text\" id=\"prompt_input\"></div>";
 
     m.getTeplate = function(type, message, options){
         var t = m.tplBase;
         
         if( type !== 'alert' ){ 
-            t = t.replace("{{BUTTON_CANCEL}}", "<button class=\"button button-cancel\">Cancel</button>"); 
+            t = t.replace("{{BUTTON_CANCEL}}", "<button class=\"button button-cancel\">Cancel</button>");
         } else {
             t = t.replace("{{BUTTON_CANCEL}}", ""); 
         }
