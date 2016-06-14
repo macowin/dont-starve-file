@@ -1,0 +1,19 @@
+<div id="success" style="display: none;">
+    <div class="weui_mask_transparent"></div>
+    <div class="weui_toast">
+        <i class="weui_icon_toast"></i>
+        <p class="weui_toast_content" id="success_content"></p>
+    </div>
+</div>
+<script>
+    /* 微信完成框 */
+    function show_success(content)
+    {
+        $("#success").find("#success_content").text(content);
+        $("#loading").hide();
+        $("#success").show();
+        setTimeout(function () {
+            $('#success').hide();
+        }, 1000);
+    }
+</script>

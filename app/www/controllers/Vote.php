@@ -16,4 +16,9 @@ class Vote extends MY_Controller
     {
         $this->load->view("vote/index.html");
     }
+
+    public function add()
+    {
+        $this->load->view("vote/add.html");
+    }
 }

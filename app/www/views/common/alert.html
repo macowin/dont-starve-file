@@ -1,0 +1,18 @@
+<div class="weui_dialog" id="alert" style="display:none;">
+    <input type="hidden" id="alert_link" value=""/>
+    <div class="weui_dialog_hd"><strong class="weui_dialog_title" id="alert_title"></strong></div>
+    <div class="weui_dialog_bd" id="alert_content"></div>
+    <div class="weui_dialog_ft">
+        <a href="javascript:;" class="weui_btn_dialog primary" onclick="$('#alert').hide()" id="alert_sure">确定</a>
+    </div>
+</div>
+<script>
+    /* 微信弹窗 */
+    function show_alert(title,content,link)
+    {
+        $("#alert").find("#alert_title").text(title);
+        $("#alert").find("#alert_content").text(content);
+        $("#alert").find("#alert_link").val(link);
+        $("#alert").show();
+    }
+</script>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="browsermode" content="application">
+    <title>参与活动</title>
+    <link rel="stylesheet" href="/weui/weui.css">
+
+</head>
+<body>
+<span style="display:none"><input type="file"></span>
+
+<div class="container" id="container">
+    <div class="cell">
+        <div class="bd">
+            <div class="weui_cells_title">上传</div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <div class="weui_uploader">
+                            <div class="weui_uploader_hd weui_cell">
+                                <div class="weui_cell_bd weui_cell_primary">图片上传</div>
+                                <div class="weui_cell_ft">0/2</div>
+                            </div>
+                            <div class="weui_uploader_bd">
+                                <ul class="weui_uploader_files">
+                                    <li class="weui_uploader_file"
+                                        style="background-image:url(http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/)"></li>
+                                    <li class="weui_uploader_file"
+                                        style="background-image:url(http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/)"></li>
+                                    <li class="weui_uploader_file"
+                                        style="background-image:url(http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/)"></li>
+                                </ul>
+                                <div class="weui_uploader_input_wrp">
+                                    <input class="weui_uploader_input" type="file"
+                                           accept="image/jpg,image/jpeg,image/png,image/gif" multiple="" id="inputfile">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui_cells_title">文本域</div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <textarea class="weui_textarea" placeholder="请输入评论" rows="3"></textarea>
+
+                        <div class="weui_textarea_counter"><span>0</span>/200</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $this->load->view("common/alert.html");?>
+<?php $this->load->view("common/confirm.html");?>
+<?php $this->load->view("common/loading.html");?>
+<?php $this->load->view("common/success.html");?>
+<!-- 响应返回数据容器 -->
+<script src="/js/plugin/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        $('#inputfile').on('click', function () {
+            if ($("#images_show").children('li').length == 3) {
+                show_alert('提示', '图片数量已达上限，点击图片删除', '#');
+                return;
+            }
+            var $fileInput = $('<input type="file"/>');
+            $fileInput.click();
+            $fileInput.on('change', function () {
+                ImageFileResize($fileInput[0].files[0], 800, 800, function (dataUrl) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/goods/upload_file",
+                        data: {image: dataUrl},
+                        beforeSend: function () {
+                            show_loading('正在上传');
+                        },
+                        success: function (data) {
+                            if (data == 0) {
+                                show_success('上传失败');
+                                show_alert('警告', '图片太大导致上传失败，请重新再试', '#');
+                                return;
+                            }
+                            show_success('上传成功');
+                            /* 上传的图片显示在页面上 */
+                            $("#images_show").append(set_image(data));
+                            $(".weui_cell_ft").text($("#images_show").children('li').length + "/3");
+                        }
+                    });
+                });
+            });
+
+        });
+
+        /* 移除已经上传的图片 */
+        $("#images_show").on("click", '.weui_uploader_file', function () {
+            $(this).remove();
+            $(".weui_cell_ft").text($("#images_show").children('li').length + "/3");
+        });
+
+        /* 监测商品说明输入框 */
+        $("#goods_name").bind("input propertychange", function () {
+            var len = $(this).val().length;
+            $(".weui_textarea_counter").text(len + "/88");
+        });
+
+        $("#add_new_goods").on("click", function () {
+            var img_url = [];
+            $("#images_show").children('li').each(function () {
+                var data = $(this).data("img_url");
+                img_url.push(data);
+            });
+            if (img_url == "") {
+                show_alert('提示', '宝贝图片不能为空', '#');
+                return;
+            }
+            if (!$("#goods_name").val()) {
+                show_alert('提示', '宝贝说明不能为空', '#');
+                return;
+            }
+            if ($("#nums").val() <= 0) {
+                show_alert('提示', '请输入正确的参与人次', '#');
+                return;
+            }
+            $.ajax({
+                url: '/goods/supply_service',
+                type: 'post',
+                data: {
+                    name: $("#goods_name").val(),
+                    goods_picture: img_url,
+                    price: 10,
+                    nums: $("#nums").val()
+                },
+                beforeSend: function () {
+                    show_loading('正在提交');
+                },
+                success: function (data) {
+                    if (data == 1) {
+                        $("#add_new_goods").attr("disabled", "disabled");
+                        show_success('提交成功');
+                        show_alert('提示', '商品信息已经提交到服务器，等待工作人员审核', '/');
+                    } else {
+                        show_success('服务器异常');
+                    }
+                }
+            });
+
+        });
+        $("#alert_sure").click(function () {
+            //setTimeout(function(){WeixinJSBridge.call('closeWindow')},1);
+            var link = $("#alert_link").val();
+            if (link) {
+                setTimeout(function () {
+                    window.location.href = $("#alert_link").val();
+                }, 1);
+            }
+        })
+
+        /* 返回图片样式输出 */
+        function set_image(data) {
+            return '<li data-img_url="' + data + '" class="weui_uploader_file" style="background-image:url(' + data + ')"></li>';
+        }
+
+        function ImageFileResize(file, maxWidth, maxHeight, callback) {
+            var Img = new Image;
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+
+            Img.onload = function () {
+                if (Img.width > maxWidth || Img.height > maxHeight) {
+                    var bili = Math.max(Img.width / maxWidth, Img.height / maxHeight);
+                    canvas.width = Img.width / bili;
+                    canvas.height = Img.height / bili;
+                } else {
+                    canvas.width = Img.width;
+                    canvas.height = Img.height;
+                }
+                ctx.drawImage(Img, 0, 0, Img.width, Img.height, 0, 0, canvas.width, canvas.height);
+
+//            $('body').append(canvas);
+                callback(canvas.toDataURL('image/jpeg', 0.6));
+            };
+
+            try {
+                Img.src = window.URL.createObjectURL(file);
+            } catch (err) {
+                try {
+                    Img.src = window.webkitURL.createObjectURL(file);
+                } catch (err) {
+                    alert(err.message);
+                }
+            }
+        }
+
+    })
+</script>
+</body>
+</html>
