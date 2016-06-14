@@ -8,6 +8,12 @@
     <link rel="stylesheet" type="text/css" href="/vote/css/base.css"/>
     <link rel="stylesheet" type="text/css" href="/vote/css/style.css"/>
     <script src="/vote/js/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <script src="/vote/js/jaliswall.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.wall').jaliswall({item: '.article'});
+        })
+    </script>
 </head>
 <body>
 
@@ -17,20 +23,19 @@
         <li class="article">
             <a>
                 <img src="/vote/images/7.jpg" class="vote_img"/>
+
                 <p>周先生</p>
                 <small>10000000票</small>
-                <input type="button" value="投票" />
+                <input type="button" value="投票"/>
             </a>
         </li>
         <?php }?>
     </ul>
 </div>
 
-
-<script src="/vote/js/jaliswall.js" type="text/javascript"></script>
 <script src="/confirm/jquery.gDialog.js"></script>
 <script type="text/javascript">
-    $(function() {
+    $(function () {
         $('.wall').jaliswall({item: '.article'});
 
         $(".wrapper").on("click", '.vote_img', function () {
@@ -38,7 +43,7 @@
                 title: "详细信息",
                 animateIn: "bounceIn",
                 animateOut: "bounceOut",
-                onSubmit:function(){
+                onSubmit: function () {
 
                 }
             });
