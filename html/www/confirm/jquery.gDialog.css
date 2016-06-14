@@ -129,16 +129,16 @@ button { border:0;}
 
 @media screen and (max-width: 480px) {
   .gdialog-wrap .gdialog-header {
-    font-size: .9em;
+    font-size: 1.2em;
     line-height: 1.4em; }
 
   .gdialog-wrap .gdialog-content {
-    font-size: .8em;
+    font-size: 1.2em;
     line-height: 1.2em; }
     .gdialog-wrap .gdialog-content .gdialog-field input {
       font-size: 1em; }
 
   .gdialog-wrap .gdialog-button-group {
-    font-size: .8em; } }
+    font-size: 1.2em; } }
 
 /*# sourceMappingURL=jquery.gDialog.css.map */
