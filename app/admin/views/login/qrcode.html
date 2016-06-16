@@ -23,7 +23,7 @@
             var scene_id = new Date().getTime();
             var close_type = 0;
 
-            ws = new WebSocket("ws://182.254.132.50:1235");
+            ws = new WebSocket("ws://182.254.244.180:1235");
             ws.onopen = function () {
                 var msg = '{"type":"getQrcode","scene_id":'+scene_id+'}';
                 ws.send(msg);
