@@ -21,4 +21,12 @@ class Vote extends MY_Controller
     {
         $this->load->view("vote/add.html");
     }
+
+    public function add_service()
+    {
+        echo 1;exit;
+        $info = $this->input->post("info");
+        $images = $this->input->post("image");
+        var_dump($info,$images);
+    }
 }

@@ -14,160 +14,147 @@
 
 </head>
 <body>
-<span style="display:none"><input type="file"></span>
-
 <div class="container" id="container">
     <div class="cell">
         <div class="bd">
-            <div class="weui_cells_title">上传</div>
+            <div class="weui_cells_title">参加活动</div>
             <div class="weui_cells weui_cells_form">
                 <div class="weui_cell">
                     <div class="weui_cell_bd weui_cell_primary">
                         <div class="weui_uploader">
                             <div class="weui_uploader_hd weui_cell">
-                                <div class="weui_cell_bd weui_cell_primary">图片上传</div>
-                                <div class="weui_cell_ft">0/2</div>
+                                <div class="weui_cell_bd weui_cell_primary"></div>
+                                <div class="weui_cell_ft">0/1</div>
                             </div>
+                            <input type="hidden" id="goods_picture" value=""/>
                             <div class="weui_uploader_bd">
                                 <ul class="weui_uploader_files">
-                                    <li class="weui_uploader_file"
-                                        style="background-image:url(http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/)"></li>
-                                    <li class="weui_uploader_file"
-                                        style="background-image:url(http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/)"></li>
-                                    <li class="weui_uploader_file"
-                                        style="background-image:url(http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/)"></li>
+                                    <div id="images_show"></div>
+                                    <div class="weui_uploader_input_wrp">
+                                        <input class="weui_uploader_input" type="button"
+                                               accept="image/jpg,image/jpeg,image/png,image/gif" name="image" id="inputfile">
+                                    </div>
                                 </ul>
-                                <div class="weui_uploader_input_wrp">
-                                    <input class="weui_uploader_input" type="file"
-                                           accept="image/jpg,image/jpeg,image/png,image/gif" multiple="" id="inputfile">
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="weui_cells_title">文本域</div>
-            <div class="weui_cells weui_cells_form">
                 <div class="weui_cell">
                     <div class="weui_cell_bd weui_cell_primary">
-                        <textarea class="weui_textarea" placeholder="请输入评论" rows="3"></textarea>
-
-                        <div class="weui_textarea_counter"><span>0</span>/200</div>
+                        <textarea class="weui_textarea" placeholder="请输入活动宣言" rows="3" id="info" maxlength="200"></textarea>
+                        <div class="weui_textarea_counter">0/200</div>
                     </div>
                 </div>
             </div>
+            <br>
+            <div class="weui_btn_area">
+                <button class="weui_btn weui_btn_warn" id="vote_submit">提交活动</button>
+            </div>
+            <span style="display:none"><input type="file"></span>
         </div>
     </div>
 </div>
-<?php $this->load->view("common/alert.html");?>
-<?php $this->load->view("common/confirm.html");?>
 <?php $this->load->view("common/loading.html");?>
 <?php $this->load->view("common/success.html");?>
 <!-- 响应返回数据容器 -->
-<script src="/js/plugin/jquery-1.10.2.min.js"></script>
+<script src="/vote/js/jquery-1.8.3.min.js"></script>
+<script src="/confirm/jquery.gDialog.js"></script>
 <script>
     $(function () {
-        $('#inputfile').on('click', function () {
-            if ($("#images_show").children('li').length == 3) {
-                show_alert('提示', '图片数量已达上限，点击图片删除', '#');
-                return;
-            }
-            var $fileInput = $('<input type="file"/>');
-            $fileInput.click();
-            $fileInput.on('change', function () {
-                ImageFileResize($fileInput[0].files[0], 800, 800, function (dataUrl) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/goods/upload_file",
-                        data: {image: dataUrl},
-                        beforeSend: function () {
-                            show_loading('正在上传');
-                        },
-                        success: function (data) {
-                            if (data == 0) {
-                                show_success('上传失败');
-                                show_alert('警告', '图片太大导致上传失败，请重新再试', '#');
-                                return;
-                            }
-                            show_success('上传成功');
-                            /* 上传的图片显示在页面上 */
-                            $("#images_show").append(set_image(data));
-                            $(".weui_cell_ft").text($("#images_show").children('li').length + "/3");
-                        }
-                    });
-                });
-            });
-
-        });
-
-        /* 移除已经上传的图片 */
-        $("#images_show").on("click", '.weui_uploader_file', function () {
-            $(this).remove();
-            $(".weui_cell_ft").text($("#images_show").children('li').length + "/3");
-        });
-
-        /* 监测商品说明输入框 */
-        $("#goods_name").bind("input propertychange", function () {
-            var len = $(this).val().length;
-            $(".weui_textarea_counter").text(len + "/88");
-        });
-
-        $("#add_new_goods").on("click", function () {
+        $("#vote_submit").on("click",function(){
             var img_url = [];
-            $("#images_show").children('li').each(function () {
+            $("#images_show").children('li').each(function(){
                 var data = $(this).data("img_url");
                 img_url.push(data);
             });
-            if (img_url == "") {
-                show_alert('提示', '宝贝图片不能为空', '#');
+            if(img_url=="") {
+                show_alert('提示','上传图片不能为空');
                 return;
             }
-            if (!$("#goods_name").val()) {
-                show_alert('提示', '宝贝说明不能为空', '#');
-                return;
-            }
-            if ($("#nums").val() <= 0) {
-                show_alert('提示', '请输入正确的参与人次', '#');
+            if(!$("#info").val()) {
+                show_alert('提示','描述信息不能为空');
                 return;
             }
             $.ajax({
-                url: '/goods/supply_service',
+                url: '/vote/add_service',
                 type: 'post',
                 data: {
-                    name: $("#goods_name").val(),
-                    goods_picture: img_url,
-                    price: 10,
-                    nums: $("#nums").val()
+                    info:$("#info").val(),
+                    image:img_url
                 },
-                beforeSend: function () {
+                beforeSend:function(){
                     show_loading('正在提交');
                 },
                 success: function (data) {
-                    if (data == 1) {
-                        $("#add_new_goods").attr("disabled", "disabled");
+                    if(data == 1){
+                        $("#vote_submit").attr("disabled", "disabled");
                         show_success('提交成功');
-                        show_alert('提示', '商品信息已经提交到服务器，等待工作人员审核', '/');
-                    } else {
+                        setTimeout(function(){
+                            show_alert('提示','信息已提交，等待管理员审核',1);
+                        },1000);
+                    }else{
                         show_success('服务器异常');
                     }
                 }
             });
 
         });
-        $("#alert_sure").click(function () {
-            //setTimeout(function(){WeixinJSBridge.call('closeWindow')},1);
-            var link = $("#alert_link").val();
-            if (link) {
-                setTimeout(function () {
-                    window.location.href = $("#alert_link").val();
-                }, 1);
+
+        /* 监测商品说明输入框 */
+        $("#info").bind("input propertychange", function() {
+            var len = $(this).val().length;
+            $(".weui_textarea_counter").text(len+"/200");
+        });
+
+        $('#inputfile').on('click', function () {
+            if($("#images_show").children('li').length == 1){
+                show_alert('提示','图片已达上限，点击图片即可删除');
+                return;
             }
-        })
+            var $fileInput = $('<input type="file"/>');
+            $fileInput.click();
+            $fileInput.on('change',function () {
+                ImageFileResize($fileInput[0].files[0], 800, 800, function (dataUrl) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/upload/image",
+                        data: {image:dataUrl},
+                        beforeSend:function(){
+                            show_loading('正在上传');
+                        },
+                        success: function (data) {
+                            if(data == 0){
+                                show_success('上传失败');
+                                show_alert('警告','图片太大导致上传失败，请重新再试');
+                                return;
+                            }
+                            show_success('上传成功');
+                            /* 上传的图片显示在页面上 */
+                            $("#images_show").append(set_image(data));
+                            $(".weui_cell_ft").text($("#images_show").children('li').length+"/3");
+                        }
+                    });
+                });
+            });
+        });
 
         /* 返回图片样式输出 */
-        function set_image(data) {
-            return '<li data-img_url="' + data + '" class="weui_uploader_file" style="background-image:url(' + data + ')"></li>';
+        function set_image(data)
+        {
+            return '<li data-img_url="'+data+'" class="weui_uploader_file" style="background-image:url('+data+')"></li>';
+        }
+
+        function show_alert(title,content,success){
+            $.gDialog.alert(content, {
+                title: title,
+                animateIn: "bounceIn",
+                animateOut: "bounceOut",
+                onSubmit: function(){
+                    if(success){
+                        location.href="/vote/index";
+                    }
+                }
+            });
         }
 
         function ImageFileResize(file, maxWidth, maxHeight, callback) {
@@ -175,12 +162,12 @@
             var canvas = document.createElement('canvas');
             var ctx = canvas.getContext('2d');
 
-            Img.onload = function () {
-                if (Img.width > maxWidth || Img.height > maxHeight) {
-                    var bili = Math.max(Img.width / maxWidth, Img.height / maxHeight);
-                    canvas.width = Img.width / bili;
-                    canvas.height = Img.height / bili;
-                } else {
+            Img.onload = function() {
+                if (Img.width>maxWidth || Img.height>maxHeight) {
+                    var bili = Math.max(Img.width/maxWidth, Img.height/maxHeight);
+                    canvas.width = Img.width/bili;
+                    canvas.height = Img.height/bili;
+                }else{
                     canvas.width = Img.width;
                     canvas.height = Img.height;
                 }
@@ -190,17 +177,16 @@
                 callback(canvas.toDataURL('image/jpeg', 0.6));
             };
 
-            try {
+            try{
                 Img.src = window.URL.createObjectURL(file);
-            } catch (err) {
-                try {
+            }catch(err){
+                try{
                     Img.src = window.webkitURL.createObjectURL(file);
-                } catch (err) {
+                }catch(err){
                     alert(err.message);
                 }
             }
         }
-
     })
 </script>
 </body>
