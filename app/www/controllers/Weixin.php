@@ -35,7 +35,7 @@ class Weixin extends CI_Controller
 
                 } else if ($event['event'] == 'CLICK') {
                     if($event['key'] == 'join_us'){
-                        $this->wechat->image('')->reply();
+                        $this->wechat->image('_4lijTsX14FPD9rNL1RhKLs9XePPUrMKskgQEYSHaT6RVNhPCA_Wysq5JnfwDoa9')->reply();
                     }
                 } else if ($event['event'] == 'SCAN') {
                     $scene_id = $this->wechat->getRevSceneId();

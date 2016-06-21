@@ -28,10 +28,10 @@ class Install extends MY_Controller
         $addon_path = $_GET['name'];
         $flag = file_get_contents(base_url("/$addon_path/uninstall?key=".KEY));
         if($flag == 1){
-            $flag1 = @unlink (APPPATH."/controller/$file_name.php");
-            $flag2 = @unlink (APPPATH."/views/$addon_path");
-            $flag3 = @unlink (FCPATH."/public/$addon_path");
-            if(!$flag2 && $flag1 && !$flag3){
+            $flag1 = @unlink (APPPATH."controllers/$file_name.php");
+            $flag2 = $this->deldir(APPPATH."views/$addon_path");
+            $flag3 = $this->deldir(FCPATH."public/$addon_path");
+            if($flag2 && $flag1 && $flag3){
                 echo "<script>alert('卸载成功')</script>";
             }
         }else{
@@ -53,5 +53,28 @@ class Install extends MY_Controller
             }
         }
         closedir($dir);
+    }
+
+    private function deldir($dir) {
+        //先删除目录下的文件：
+        $dh=opendir($dir);
+        while ($file=readdir($dh)) {
+            if($file!="." && $file!="..") {
+                $fullpath=$dir."/".$file;
+                if(!is_dir($fullpath)) {
+                    unlink($fullpath);
+                } else {
+                    $this->deldir($fullpath);
+                }
+            }
+        }
+
+        closedir($dh);
+        //删除当前文件夹：
+        if(rmdir($dir)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
