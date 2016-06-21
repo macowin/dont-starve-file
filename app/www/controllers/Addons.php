@@ -5,7 +5,7 @@
  * Date: 2016/6/2
  * Time: 19:55
  */
-class Install extends MY_Controller
+class Addons extends MY_Controller
 {
     public function __construct()
     {
@@ -13,7 +13,7 @@ class Install extends MY_Controller
         $this->load->helper("url");
     }
 
-    public function index()
+    public function install()
     {
         $addon_path = $_GET['name'];
         $this->recurse_copy(FCPATH."addons/$addon_path/controllers/",APPPATH."controllers/");
