@@ -32,6 +32,9 @@ class Vote extends MY_Controller
 
     public function install()
     {
+        if($_GET['key'] != KEY){
+            exit;
+        }
         $vote = "create table vote (".
                 "id int not null auto_increment primary key comment '主键(自增长)',".
                 "user_id int not null comment '投票发起人ID',".
@@ -48,17 +51,22 @@ class Vote extends MY_Controller
             "vote_id int not null comment '投票ID',".
             "created_time int not null comment '创建时间')";
         $record_flag = $this->db->query($record);
-        if($record_flag && $record_flag){
+        if($vote_flag && $record_flag){
             echo "<script>alert('安装成功,可通过/vote/index进入主页，通过/vote/add进入活动添加页面');window.opener=null;window.close();</script>";
         }
     }
 
     public function uninstall()
     {
+        if($_GET['key'] != KEY){
+            exit;
+        }
         $vote_flag = $this->db->query("drop table vote");
         $record_flag = $this->db->query("drop table vote_record");
         if($record_flag && $vote_flag){
-            echo "<script>alert('卸载成功');window.opener=null;window.close();</script>";
+            echo 1;
+        }else{
+            echo 0;
         }
     }
 }

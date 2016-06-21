@@ -23,7 +23,21 @@ class Character extends MY_Controller
         $data['characters'] = $this->Any_model->info('character',array('id'=>$character_id));
     }
 
+    public function install()
+    {
+        if ($_GET['key'] != KEY) {
+            exit;
+        }
+        echo "<script>alert('安装成功,可通过/vote/index进入主页，通过/vote/add进入活动添加页面');window.opener=null;window.close();</script>";
+    }
 
+    public function uninstall()
+    {
+        if($_GET['key'] != KEY){
+            exit;
+        }
+        echo 1;
+    }
 
     private function _get_characters($param)
     {

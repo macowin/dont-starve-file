@@ -42,7 +42,7 @@
     a.attr({
         rel: "stylesheet",
         type: "text/css",
-        href: "/confirm/animate.min.css"
+        href: "/public/alert/animate.min.css"
     });
 
     $("head").append("<link>");
@@ -50,7 +50,7 @@
     a2.attr({
         rel: "stylesheet",
         type: "text/css",
-        href: "/confirm/jquery.gDialog.css"
+        href: "/public/alert/jquery.gDialog.css"
     });
 
     $("head").append("<link>");
@@ -58,7 +58,7 @@
     a3.attr({
         rel: "stylesheet",
         type: "text/css",
-        href: "/confirm/normalize.css"
+        href: "/public/alert/normalize.css"
     });
 
     var m = {};
