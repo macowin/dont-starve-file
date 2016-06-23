@@ -14,7 +14,12 @@ class Vote extends MY_Controller
 
     public function index()
     {
-        $this->load->view("vote/index.html");
+        $vote_data = $this->Any_model->table_list('vote',array('status'=>1),array('votes'=>'desc'),'');
+        foreach($vote_data as &$value){
+            $user = $this->Any_model->info('login_user',array('id'=>$this->user['id']),'nickname');
+            $value['nickname'] = $user['nickname'];
+        }
+        $this->load->view("vote/index.html",array('vote'=>$vote_data));
     }
 
     public function add()
@@ -24,10 +29,15 @@ class Vote extends MY_Controller
 
     public function add_service()
     {
-        echo 1;exit;
         $info = $this->input->post("info");
         $images = $this->input->post("image");
-        var_dump($info,$images);
+        $vote = array('user_id'=>$this->user['id'],'info'=>$info,'img_url'=>$images[0],'status'=>0,'created_time'=>time());
+        $flag = $this->Any_model->add('vote',$vote);
+        if($flag){
+            echo 1;
+        }else{
+            echo 0;
+        }
     }
 
     public function install()
@@ -52,7 +62,7 @@ class Vote extends MY_Controller
             "created_time int not null comment '创建时间')";
         $record_flag = $this->db->query($record);
         if($vote_flag && $record_flag){
-            echo "<script>alert('安装成功,可通过/vote/index进入主页，通过/vote/add进入活动添加页面');window.opener=null;window.close();</script>";
+            echo "<script>alert('安装成功');window.opener=null;window.close();</script>";
         }
     }
 

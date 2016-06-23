@@ -91,7 +91,7 @@ class MY_Model extends CI_Model
      * @param array $limit
      * @return mixed
      */
-    public function _list($table,$search=array(),$orderby='desc',$field='*',$limit=array())
+    public function _list($table,$search=array(),$orderby=array(),$field='*',$limit=array())
     {
         if($search){
             self::_search($search);
@@ -100,7 +100,14 @@ class MY_Model extends CI_Model
             $this->db->limit($limit[1], $limit[0]);
         }
         $this->db->select($field);
-        $this->db->order_by('id',$orderby);
+        if($orderby){
+            foreach($orderby as $key=>$value){
+                $this->db->order_by($key,$value);
+                break;
+            }
+        }else{
+            $this->db->order_by('id','desc');
+        }
         $query=$this->db->get($table);
         return $query->result_array();
     }
