@@ -61,6 +61,38 @@ class Weixin extends CI_Controller
         }
     }
 
+    public function weixin_login()
+    {
+        redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2d66eb3fc8919ecb&redirect_uri=http://wx-dont-starve.zhoujianjun.cn&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
+    }
+
+    /* 微信登陆回调 */
+    public function weixin_sign_in_code()
+    {
+        if (!$_GET['code']) {
+            redirect('/weixin/weixin_login');
+        }
+
+        $appid = "wx0933e049fcd86918";
+        $secret = "88e1bcd603c33efec118825a752131a6";
+        $code = $_GET['code'];
+        //拿到用户的access_token
+        $ret = file_get_contents("https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$secret&code=$code&grant_type=authorization_code");
+        $token = json_decode($ret, TRUE);
+        $user_info = $this->wechat->getOauthUserinfo($token['access_token'],$token['openid']);
+        $flag = $this->_add_user($user_info);
+        if($flag){
+            $user_info['id'] = $flag;
+            $this->session->set_userdata('user_info',$user_info);
+        }
+        $return_url = $this->session->userdata('returnUrl');
+        if (!$return_url)
+            $return_url = "/server/index";
+        else
+            $this->session->unset_userdata('returnUrl');
+        redirect($return_url);
+    }
+
     public function create_menu()
     {
 
