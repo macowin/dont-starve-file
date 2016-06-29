@@ -27,11 +27,7 @@
                     <p><?php echo $value['nickname'];?></p>
                     <small><?php echo $value['votes']."票";?></small>
                 </div>
-                <?php if(isset($record['vote_id'])){?>
-                <input type="button" value="<?php echo $record['vote_id'] == $value['id'] ? '已投' : '投票';?>"/>
-                <?php }else{?>
-                <input type="button" class="support" value="投票" data-vote_id="<?php echo $value['id'];?>"/>
-                <?php }?>
+                <input type="button" class="check" value="审核" data-vote_id="<?php echo $value['id'];?>"/>
             </a>
         </li>
         <?php }?>
@@ -41,37 +37,17 @@
 <script src="/public/alert/jquery.gDialog.js"></script>
 <script type="text/javascript">
     $(function () {
-        $(".wrapper").on("click", '.info', function () {
-            $.gDialog.alert("上传者："+$(this).data("nickname")+" <br><br>上传时间："+$(this).data("time")+
-                    "<br><br>票数："+$(this).data("votes")+"<br><br>说明："+$(this).data("info"), {
-                title: "详细信息",
-                animateIn: "bounceIn",
-                animateOut: "bounceOut",
-                onSubmit: function () {
-
-                }
-            });
-        })
-        $(".support").on("click",function(){
-            $.post("/vote/support_service",{
+        $(".check").on("click",function(){
+            $.post("/vote/check_service",{
                 vote_id:$(this).data("vote_id")
             },function(data,status){
                 if(data == 1){
-                    $.gDialog.alert("<div style='text-align: center'>投票成功，点击确定刷新页面</div>", {
+                    $.gDialog.alert("<div style='text-align: center'>审核成功</div>", {
                         title: "提示",
                         animateIn: "bounceIn",
                         animateOut: "bounceOut",
                         onSubmit: function () {
                             location.reload();
-                        }
-                    });
-                }else if(data == 2){
-                    $.gDialog.alert("<div style='text-align: center'>你已经投过票了，每人只能投一次</div>", {
-                        title: "提示",
-                        animateIn: "bounceIn",
-                        animateOut: "bounceOut",
-                        onSubmit: function () {
-
                         }
                     });
                 }else{

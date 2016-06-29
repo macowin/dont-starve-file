@@ -15,16 +15,44 @@ class Vote extends MY_Controller
     public function index()
     {
         $vote_data = $this->Any_model->table_list('vote',array('status'=>1),array('votes'=>'desc'),'');
+        $record_info = $this->Any_model->info('vote_record',array('user_id'=>$this->user['id']));
         foreach($vote_data as &$value){
             $user = $this->Any_model->info('login_user',array('id'=>$this->user['id']),'nickname');
             $value['nickname'] = $user['nickname'];
         }
-        $this->load->view("vote/index.html",array('vote'=>$vote_data));
+        $this->load->view("vote/index.html",array('vote'=>$vote_data,'record'=>$record_info));
     }
 
     public function add()
     {
         $this->load->view("vote/add.html");
+    }
+
+    public function check()
+    {
+        if($this->user['id'] != 1){
+            echo "<script>history.back();</script>";
+        }
+        $vote_data = $this->Any_model->table_list('vote',array('status'=>0),'','');
+        foreach($vote_data as &$value){
+            $user = $this->Any_model->info('login_user',array('id'=>$this->user['id']),'nickname');
+            $value['nickname'] = $user['nickname'];
+        }
+        $this->load->view("vote/check.html",array('vote'=>$vote_data));
+    }
+
+    public function check_service()
+    {
+        $vote_id = $this->input->post("vote_id");
+        if($this->user['id'] != 1){
+            exit;
+        }
+        $flag = $this->Any_model->edit('vote',array('id'=>$vote_id),array('status'=>1));
+        if($flag){
+            echo 1;
+        }else{
+            echo 0;
+        }
     }
 
     public function add_service()
@@ -38,6 +66,28 @@ class Vote extends MY_Controller
         }else{
             echo 0;
         }
+    }
+
+    public function support_service()
+    {
+        $vote_id = $this->input->post("vote_id");
+        if(!$vote_id){
+            exit;
+        }
+        $record_info = $this->Any_model->info('vote_record',array('user_id'=>$this->user['id']));
+        if($record_info){
+            echo 2;
+            exit;
+        }
+        $vote_info = $this->Any_model->info('vote',array('id'=>$vote_id));
+        $flag2 = $this->Any_model->edit('vote',array('id'=>$vote_id),array('votes'=>$vote_info['votes']+1));
+        $flag = $this->Any_model->add("vote_record",array('user_id'=>$this->user['id'],'vote_id'=>$vote_id,'created_time'=>time()));
+        if($flag && $flag2){
+            echo 1;
+        }else{
+            echo 0;
+        }
+
     }
 
     public function install()
