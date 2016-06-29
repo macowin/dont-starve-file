@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>首页</title>
+    <meta name="keywords" content="DeathGhost"/>
+    <meta name="description" content="http://www.deathghost.cn"/>
+    <meta name="author" content="DeathGhost"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name='apple-touch-fullscreen' content='yes'>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="address=no">
+    <link rel="icon" href="/public/home/images/icon/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57"
+          href="/public/home/images/icon/apple-touch-icon-57x57-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120"
+          href="/public/home/images/icon/apple-touch-icon-120x120-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="196x196"
+          href="/public/home/images/icon/apple-touch-icon-196x196-precomposed.png">
+    <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="/public/home/style.css"/>
+    <script src="/public/home/jquery.js"></script>
+    <script src="/public/home/swiper-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var mySwiper = new Swiper('#slide', {
+                autoplay: 5000,
+                visibilityFullFit: true,
+                loop: true,
+                pagination: '.pagination',
+            });
+            //product list:Tab
+            $(".tab_proList dd").eq(0).show().siblings(".tab_proList dd").hide();
+            $(".tab_proList dt a").eq(0).addClass("currStyle");
+            $(".tab_proList dt a").click(function () {
+                var liindex = $(".tab_proList dt a").index(this);
+                $(this).addClass("currStyle").siblings().removeClass("currStyle");
+                $(".tab_proList dd").eq(liindex).fadeIn(150).siblings(".tab_proList dd").hide();
+            });
+            //飞入动画，具体根据实际情况调整
+            /*$(".addToCart").click(function () {
+             $(".hoverCart a").html(parseInt($(".hoverCart a").html()) + 1);
+             /!*悬浮购物车+1*!/
+             var shopOffset = $(".hoverCart").offset();
+             var cloneDiv = $(this).parent().siblings(".goodsPic").clone();
+             var proOffset = $(this).parent().siblings(".goodsPic").offset();
+             cloneDiv.css({"position": "absolute", "top": proOffset.top, "left": proOffset.left});
+             $(this).parent().siblings(".goodsPic").parent().append(cloneDiv);
+             cloneDiv.animate({
+             width: 0,
+             height: 0,
+             left: shopOffset.left,
+             top: shopOffset.top,
+             opacity: 1
+             }, "slow");
+             });*/
+        });
+    </script>
+</head>
+<body>
+<!--header-->
+<!--
+<header>
+    <a href="#" class="location">西安市</a>
+
+    <h1>果蔬商城</h1>
+    <a href="#" class="rt_searchIcon">&#37;</a>
+</header>
+-->
+<!--slide-->
+<div id="slide">
+    <div class="swiper-wrapper">
+        <?php foreach(array(1,2,3,4,5,6) as $value){?>
+        <div class="swiper-slide">
+            <a href="#"><img src="/public/home/slide001.jpg"/></a>
+        </div>
+        <?php }?>
+    </div>
+    <div class="pagination"></div>
+</div>
+<!--categoryList-->
+<ul class="categoryLiIcon">
+    <?php foreach($menu as $value){?>
+    <li>
+        <a href="<?php echo $value['link'];?>">
+            <img src="<?php echo $value['icon'];?>"/>
+            <em><?php echo $value['name'];?></em>
+        </a>
+    </li>
+    <?php }?>
+</ul>
+<!--Tab:productList-->
+<dl class="tab_proList">
+    <dt>
+        <a>热销</a>
+        <a>新品</a>
+        <a>打折</a>
+    </dt>
+    <dd>
+        <ul>
+            <?php foreach(array(1,2,3,4,5) as $value){?>
+            <li>
+                <a href="#" class="goodsPic"><img src="/public/home/goods001.jpg"/></a>
+                <div class="goodsInfor">
+                    <h2><a href="#">新鲜生菜两斤装特惠</a></h2>
+                    <p><del>5.90</del></p>
+                    <p><strong class="price">3.90</strong></p>
+                    <a class="addToCart">&#126;</a>
+                </div>
+            </li>
+            <?php }?>
+        </ul>
+    </dd>
+    <dd>
+        <ul>
+            <?php foreach(array(1,2,3,4,5) as $value){?>
+            <li>
+                <a href="#" class="goodsPic"><img src="/public/home/goods001.jpg"/></a>
+                <div class="goodsInfor">
+                    <h2><a href="#">新鲜生菜两斤装特惠</a></h2>
+                    <p><del>5.90</del></p>
+                    <p><strong class="price">3.90</strong></p>
+                    <a class="addToCart">&#126;</a>
+                </div>
+            </li>
+            <?php }?>
+        </ul>
+    </dd>
+    <dd>
+        <ul>
+            <?php foreach(array(1,2,3,4,5) as $value){?>
+            <li>
+                <a href="#" class="goodsPic"><img src="/public/home/goods001.jpg"/></a>
+                <div class="goodsInfor">
+                    <h2><a href="#">新鲜生菜两斤装特惠</a></h2>
+                    <p><del>5.90</del></p>
+                    <p><strong class="price">3.90</strong></p>
+                    <a class="addToCart">&#126;</a>
+                </div>
+            </li>
+            <?php }?>
+        </ul>
+    </dd>
+</dl>
+<!--floatCart-->
+<!--<div class="hoverCart">
+    <a href="#">0</a>
+</div>-->
+<!--fixedNav:footer-->
+<!--<div style="height:1.2rem;"></div>
+<nav>
+    <a href="index.html" tppabs="http://www.17sucai.com/preview/183822/2015-12-24/flyToCart/index.html"
+       class="homeIcon">首页</a>
+    <a href="#" class="categoryIcon">分类</a>
+    <a href="#" class="cartIcon">购物车</a>
+    <a href="#" class="userIcon">我的</a>
+</nav>-->
+</body>
+</html>
