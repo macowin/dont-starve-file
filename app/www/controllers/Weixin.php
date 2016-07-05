@@ -113,6 +113,20 @@ class Weixin extends CI_Controller
         $this->wechat->createMenu($menu);
     }
 
+    public function notify_recharge($recharge_id)
+    {
+        if(!isset($_GET['KEY']) || $_GET['KEY'] != KEY){
+            exit;
+        }
+        $verify_arr = $_POST;
+        $verify_arr['key'] = "vjijgxvWrKf8A2S73HTpAELE49StDKMr";
+        $verify_arr['partner'] = "8217146034179662";
+        $yunNotify = $this->yunpay->md5_verify($verify_arr);
+        if ($yunNotify) {
+            $this->Any_model->edit('recharge',array('id'=>$recharge_id),array('status'=>1,'note'=>json_encode($verify_arr)));
+        }
+    }
+
     public function getQrcode()
     {
         $scene_id = substr($_GET['scene_id'], 0, 10);

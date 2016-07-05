@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,minimum-scale=1,user-scalable=no,maximum-scale=1,initial-scale=1"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="description" content=""/>
+    <title>微信红包，最高红包200元</title>
+    <link rel="stylesheet" href="/public/hongbao/nhb.css">
+
+    <link rel="stylesheet" href="/public/hongbao/inv.css">
+    <style>
+        .hongbao {
+            -webkit-animation: thb linear .4s 1;
+        }
+
+        @-webkit-keyframes thb {
+            0% {
+                -webkit-transform: scale(0, 0);
+            }
+            50% {
+                -webkit-transform: scale(1.1, 1.1);
+            }
+            75% {
+                -webkit-transform: scale(0.9, 0.9);
+            }
+            100% {
+                -webkit-transform: scale(1, 1);
+            }
+        }
+
+        .gray {
+            -webkit-animation: lhb linear .5s infinite;
+        }
+
+        @-webkit-keyframes lhb {
+            0% {
+                -webkit-transform: scale(1, 1);
+            }
+            50% {
+                -webkit-transform: scale(1.1, 1.1);
+            }
+            100% {
+                -webkit-transform: scale(1, 1);
+            }
+        }
+
+        .act_title {
+            text-align: center;
+        }
+
+        .act_title h4 {
+
+            color: #fff;
+            width: 50%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+
+            display: inline-block;
+            background-color: #ee5859;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 0 0px 0px #ee5859, 0 0 2px 2px #ee5859;
+        }
+    </style>
+
+</head>
+<script type="text/javascript">
+    function setCookie(name, value) {
+        var Days = 30;
+        var exp = new Date();
+        exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+        document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+    }
+    function getCookie(name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg)) return unescape(arr[2]);
+        else return null;
+    }
+
+    /*var cishu = getCookie('cishu');
+
+     if (cishu == 2) {
+     alert('恭喜您再次获得价值2980元时尚腕表 立即领取！');
+
+     location.href = 'xiadan.htm'/!*tpa=http://sdkuhskjfhn113.applinzi.com/xiadan.htm*!/;
+
+     }*/
+
+    function choujiang() {
+        if (cishu == "" || cishu == null) {
+            setCookie("cishu", "1", "s20");
+        } else if (cishu == 1) {
+            setCookie("cishu", "2", "s20");
+        }
+    }
+</script>
+
+<body>
+<div class="container" id="container">
+    <div class="hongbao">
+        <div class="topcontent">
+            <div class="avatar">
+                <img src="../img.alicdn.com/imgextra/i3/702780932/TB2T6K7sXXXXXaoXXXXXXXXXXXX_!!702780932.png">
+                <span>+</span></div>
+            <h2>财神丨微信</h2>
+            <span class="text">给你发了一个红包</span>
+            <div class="description">恭喜发财，大吉大利!</div>
+        </div>
+        <div class="chai" id="chai">
+            <span>開</span></div>
+    </div>
+</div>
+<div id="showmain">
+    <section class="top">财神丨微信</section>
+    <section class="main">
+        <div id="qrcode">
+            <img src="../img.alicdn.com/imgextra/i3/702780932/TB2T6K7sXXXXXaoXXXXXXXXXXXX_!!702780932.png"/>
+        </div>
+        <div class="readme">
+            <div class="tixian">
+                <p id="tixian">
+                    <a href="fx.php.htm">
+                        <button class="button gray" onclick="choujiang()" id="button" type="submit">领取红包</button>
+                    </a></p>
+                <p class="money_info">恭喜您抢到<span id="get_money">52</span>元红包</p></div>
+        </div>
+    </section>
+    <section class="bottom">
+        <div class="frend_list">
+            <div class="invite2get" style="padding-bottom: 0px;">
+                <section>
+                    <div class="scrolllist">
+                        <div class="bd">
+                            <div id="demo"
+                                 style="overflow:hidden;height:400px;width:120%;background:#fff;color:#ffffff">
+                                <div id="demo1">
+                                    <ul id="pst_1" style="height:540px; overflow: hidden;">
+                                        <li style="opacity: 0.000335803110671939; margin-top: -47.9838814506878px;">
+                                            <?php foreach(array(1,2,1,1,1,1,1,1,1,1,1) as $value){?>
+                                        <li><img
+                                                src="../img.alicdn.com/imgextra/i1/702780932/TB2yMA.qVXXXXbgXpXXXXXXXXXX_!!702780932.jpg">
+                                            <strong>?抽的?寂寞555555555555555555555</strong>11:01
+                                            获得62元红包
+                                        </li>
+                                        <?php }?>
+                                    </ul>
+                                </div>
+                                <div id="demo2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script>
+    var speed = 50
+    demo2.innerHTML = demo1.innerHTML
+    function Marquee() {
+        if (demo2.offsetTop - demo.scrollTop <= 0)
+            demo.scrollTop -= demo1.offsetHeight
+        else {
+            demo.scrollTop++
+        }
+    }
+    var MyMar = setInterval(Marquee, speed)
+    demo.onmouseover = function () {
+        clearInterval(MyMar)
+    }
+    demo.onmouseout = function () {
+        MyMar = setInterval(Marquee, speed)
+    }
+
+
+</script>
+<div id="shade" onclick="shade()">
+    <div class="share" style="display:block;">
+        <img src="../img-10047758.cos.myqcloud.com/457890.png">
+        <center><span style="color: white;font-size: 1.5em;font-family: 微软雅黑;">即可领取现金 <span id="get_money2">96.68</span> 元&nbsp;&nbsp;</span>
+        </center>
+    </div>
+</div>
+<script src="/public/hongbao/1main.js"></script>
+<div style="display:none">
+    <script src="../s4.cnzz.com/z_stat.php-id=1259242259&web_id=1259242259" language="JavaScript"></script>
+</div>
+</body>
+
+</html>

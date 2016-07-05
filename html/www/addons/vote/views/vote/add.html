@@ -100,6 +100,10 @@
 
         });
 
+        $("#images_show").on("click",".weui_uploader_file",function(){
+            $(this).remove();
+        })
+
         /* 监测商品说明输入框 */
         $("#info").bind("input propertychange", function() {
             var len = $(this).val().length;
@@ -131,7 +135,7 @@
                             show_success('上传成功');
                             /* 上传的图片显示在页面上 */
                             $("#images_show").append(set_image(data));
-                            $(".weui_cell_ft").text($("#images_show").children('li').length+"/3");
+                            $(".weui_cell_ft").text($("#images_show").children('li').length+"/1");
                         }
                     });
                 });

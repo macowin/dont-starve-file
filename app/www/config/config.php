@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://www.zhou.local/';
+$config['base_url'] = 'http://www.dontstarve.local/';
 //$config['base_url'] = 'http://wx-dont-starve.zhoujianjun.cn/';
 
 /*

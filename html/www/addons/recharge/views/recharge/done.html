@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="browsermode" content="application">
+    <title>充值信息</title>
+    <link rel="stylesheet" href="/public/weui/weui.css">
+
+</head>
+<body>
+<div class="container" id="container">
+    <div class="msg">
+        <div class="weui_msg">
+            <?php if(isset($status) && $status == 1){?>
+            <div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title">充值成功</h2>
+                <p class="weui_msg_desc">您成功充值 <?php echo $cash;?> 元</p>
+            </div>
+            <br>
+            <div class="weui_opr_area">
+                <p class="weui_btn_area">
+                    <a href="javascript:;" class="weui_btn weui_btn_primary">确定</a>
+                </p>
+            </div>
+            <?php }else{?>
+            <div class="weui_icon_area"><i class="weui_icon_msg weui_icon_warn"></i></i></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title">充值失败</h2>
+                <p class="weui_msg_desc">请联系客服，说明情况</p>
+            </div>
+            <br>
+            <div class="weui_opr_area">
+                <p class="weui_btn_area">
+                    <a href="javascript:;" class="weui_btn weui_btn_warn">确认</a>
+                </p>
+            </div>
+            <?php }?>
+            <div class="weui_extra_area">
+                <a href="" onclick="$('#info').show()">查看详情</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="info" hidden>
+    <div style="text-align:center">订单详情</div>
+    <div class="weui_cells weui_cells_form">
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">qq</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入qq号">
+            </div>
+        </div>
+        <div class="weui_cell weui_vcode">
+            <div class="weui_cell_hd"><label class="weui_label">验证码</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input class="weui_input" type="number" placeholder="请输入验证码">
+            </div>
+            <div class="weui_cell_ft">
+                <img src="./images/vcode.jpg">
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">银行卡</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入银行卡号">
+            </div>
+        </div>
+        <div class="weui_cell weui_vcode weui_cell_warn">
+            <div class="weui_cell_hd"><label class="weui_label">验证码</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input class="weui_input" type="number" placeholder="请输入验证码">
+            </div>
+            <div class="weui_cell_ft">
+                <i class="weui_icon_warn"></i>
+                <img src="./images/vcode.jpg">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 响应返回数据容器 -->
+<script src="/public/plugin/jquery-2.1.3.min.js"></script>
+</body>
+</html>
